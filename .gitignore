@@ -1,0 +1,19 @@
+# Node.js dependencies (각 프로젝트별)
+**/node_modules/
+**/.svelte-kit/
+**/dist/
+**/build/
+
+# 환경 변수 파일
+**/.env
+**/.env.local
+**/.env.development
+**/.env.production
+
+# OS 및 에디터 관련 불필요한 파일
+.DS_Store
+Thumbs.db
+*.log
+
+# Git 관련
+.git/
