@@ -17,3 +17,5 @@ Thumbs.db
 
 # Git 관련
 .git/
+/sveltekit-course/
+/svelte-course/
