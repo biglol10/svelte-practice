@@ -8,3 +8,4 @@
 
 1. if value has prefix of PUBLIC\_ then it is available in the client and server
 2. if not, it is only available in the server
+3. By default it is PUBLIC\_ and you can change in svelte.config.js
