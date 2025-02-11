@@ -1,4 +1,4 @@
-import type { Handle, HandleFetch } from '@sveltejs/kit';
+import type { Handle, HandleFetch, HandleServerError } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 
 // will run every time the svelte server receives a request
@@ -51,4 +51,16 @@ export const handleFetch: HandleFetch = ({ request, event, fetch }) => {
 	}
 
 	return fetch(request);
+};
+
+// handling unexpected errors and customizing
+// test this by const response = await fettch('/api/products');
+export const handleError: HandleServerError = ({ error, event }) => {
+	console.log('This is coming from handleError.');
+	console.log(error, event); // Send to sentry or any error logging service.
+
+	return {
+		message: 'An unexpected error has occurred.',
+		code: 'UNEXPECTED' // <h3>Code: {$page.error?.code}</h3> in +error.svelte
+	};
 };

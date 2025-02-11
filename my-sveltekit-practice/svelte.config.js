@@ -15,6 +15,9 @@ const config = {
 		alias: {
 			$components: 'src/lib/components'
 		}
+		// env: {
+		// 	publicPrefix: 'PUBLIC_' // default
+		// }
 	}
 };
 

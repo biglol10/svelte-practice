@@ -1,4 +1,5 @@
 import type { PageLoad } from './$types';
+// import { env } from '$env/dynamic/private'; // Cannot import $env/dynamic/private into client-side code
 
 // should be load
 // runs on both server and client (shared load function)

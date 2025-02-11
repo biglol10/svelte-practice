@@ -1,5 +1,8 @@
 import type { PageServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
+import { env } from '$env/dynamic/private';
+
+console.log('env $env/dynamic/private is ', env);
 
 // only runs in the server
 // how are we going to load data when using client navigation? (from home to product page)
