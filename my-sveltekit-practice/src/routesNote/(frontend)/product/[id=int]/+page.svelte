@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import ProductHeader from './ProductHeader.svelte';
 
-	$: console.log($page);
+	// $: console.log($page);
 </script>
 
 <ProductHeader />

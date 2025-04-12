@@ -1,9 +1,18 @@
 import type { PageServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
+import { env as publicEnv } from '$env/dynamic/public';
+import { API_KEY } from '$env/static/private';
+import { PUBLIC_KEY } from '$env/static/public';
 
+// Evaluated dynamically at runtime
+// This means if your environment variables change, the value will be updated at runtime, you don't have to rebuild your app
 console.log('env $env/dynamic/private is ', env);
+// Static environment variables are evaluated at build time and injected in the code
+console.log('env $env/static/private is ', API_KEY);
 
+console.log('env $env/dynamic/public is ', publicEnv);
+console.log('env $env/static/public is ', PUBLIC_KEY);
 // only runs in the server
 // how are we going to load data when using client navigation? (from home to product page)
 // if you look at network, a special request __data.json?x-sveltekit... is going to be sent and this request is going to run load function on the server and come back with the data that you are returning
@@ -58,3 +67,6 @@ export const load: PageServerLoad = async ({
 		products
 	};
 };
+
+export const ssr = false;
+// export const csr = false;

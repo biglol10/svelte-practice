@@ -1,57 +1,59 @@
 <script lang="ts">
-	import { goto, invalidateAll } from '$app/navigation';
-	import type { Snapshot } from './$types';
+	import type { ActionData } from './$types';
+	import { page } from '$app/stores';
+	import { enhance, applyAction } from '$app/forms';
 
-	// assume you need to preserve these two when we navigate away and then back to this page
-	let username = '';
-	let password = '';
+	let isLoading = false;
+	let error = '';
 
-	export const snapshot: Snapshot<{ username: string; password: string }> = {
-		// not working
-		capture: () => {
-			return {
-				username,
-				password
-			};
-		},
-		restore: (value) => {
-			username = value.username;
-			password = value.password;
-		}
-	};
-
-	const login = async () => {
-		const response = await fetch('/api/login', {
-			method: 'POST',
-			body: JSON.stringify({ username, password })
-		});
-		const resJSON = await response.json();
-		if (response.ok) {
-			// goto('/', {
-			// 	invalidateAll: true // re-run load functions that you are navigating to
-			// });
-			invalidateAll(); // re-run all load functions in our application, this is perfect when we login logout (refresh the whole application)... can use await
-		} else {
-			alert(resJSON.message);
-		}
-	};
+	export let form: ActionData;
+	$: {
+		console.log('consolelog in login/page.svelte');
+		// since form is accessible only in this page.svelte, if you need them, use $page
+		console.log($page.form, $page.status);
+	}
 </script>
 
-<form on:submit|preventDefault={login}>
+{#if error}
+	<p style="color: red">{error}</p>
+{/if}
+
+<!-- use:enhance -> form will be submitted using javascript (no page) -->
+<form
+	method="POST"
+	action="?/login"
+	use:enhance={({ form, data, action, cancel }) => {
+		isLoading = true;
+
+		// call update to perform what enhance does in default
+		return ({ result, update }) => {
+			isLoading = false;
+			if (result.type === 'failure' || result.type === 'redirect') {
+				applyAction(result);
+			}
+			if (result.type === 'error') {
+				error = result.error.message;
+			}
+			// update();
+		};
+	}}
+>
 	<label for="username">Username</label><br />
-	<input bind:value={username} id="username" name="username" placeholder="Username" />
+	<input id="username" name="username" placeholder="Username" />
+	<br />
+	{#if form?.usernameMissing}
+		<p style="color: red; margin-bottom: 0">Username is Required!</p>
+	{/if}
 	<br /><br />
 
 	<label for="password">Password</label><br />
-	<input
-		bind:value={password}
-		id="password"
-		name="password"
-		placeholder="Password"
-		type="password"
-	/>
+	<input id="password" name="password" placeholder="Password" type="password" />
+	<br />
+	{#if form?.passwordMissing}
+		<p style="color: red; margin-bottom: 0">Password is Required!</p>
+	{/if}
 
 	<br /><br />
 
-	<button type="submit">Login</button>
+	<button type="submit" disabled={isLoading}>Login</button>
 </form>

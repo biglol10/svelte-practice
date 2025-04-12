@@ -1,6 +1,6 @@
 {
 	"editor.fontSize": 18,
-	"window.zoomLevel": 1,
+	"window.zoomLevel": 0,
 	"workbench.statusBar.visible": true,
 	"editor.hover.enabled": true,
 	"gitlens.currentLine.enabled": false,

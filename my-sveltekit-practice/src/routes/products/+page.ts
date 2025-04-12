@@ -1,5 +1,12 @@
 import type { PageLoad } from './$types';
 // import { env } from '$env/dynamic/private'; // Cannot import $env/dynamic/private into client-side code
+import { env as publicEnv } from '$env/dynamic/public';
+import { PUBLIC_KEY } from '$env/static/public';
+
+// When you use the dynamic module environment variables, module in your client code, the values will have to be sent from the server to the client, which can cause a larger network request
+// So if possible, it will be preferred to use static environment variables
+console.log(publicEnv);
+console.log(PUBLIC_KEY);
 
 // should be load
 // runs on both server and client (shared load function)
